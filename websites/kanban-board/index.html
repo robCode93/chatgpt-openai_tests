@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css" />
+    <style type="text/css">
+      .board {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .column {
+        width: 20%;
+        margin: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="board">
+      <div class="column">
+        <div class="ui segment">
+          <h3 class="ui header">To Do</h3>
+          <div class="ui cards" id="toDoColumn"></div>
+        </div>
+      </div>
+      <div class="column">
+        <div class="ui segment">
+          <h3 class="ui header">In Progress</h3>
+          <div class="ui cards" id="inProgressColumn"></div>
+        </div>
+      </div>
+      <div class="column">
+        <div class="ui segment">
+          <h3 class="ui header">Done</h3>
+          <div class="ui cards" id="doneColumn"></div>
+        </div>
+      </div>
+    </div>
+    <button id="addTaskButton">Add Task</button>
+  </body>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script type="text/javascript">
+    $("#addTaskButton").click(function() {
+      let taskName = prompt("Enter the name of the task:");
+      let taskDescription = prompt("Enter the description of the task:");
+
+      let newTask = `
+        <div class="card">
+          <div class="content">
+            <div class="header">${taskName}</div>
+            <div class="description">
+              ${taskDescription}
+            </div>
+          </div>
+        </div>
+      `;
+
+      $("#toDoColumn").append(newTask);
+    });
+
+    $(".card").draggable({
+        helper: "clone"
+    });
+
+    $(".column").droppable({
+        drop: function(event, ui) {
+            let task = ui.draggable;
+            $(this).children(".cards").append(task);
+        }
+    });
+
+  </script>
+</html>
