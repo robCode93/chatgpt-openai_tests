@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Spracheingabe mit Jarvis</title>
+  </head>
+  <body>
+    <h1>Spracheingabe mit Jarvis</h1>
+    <p>Sprich mit Jarvis:</p>
+    <button id="startBtn">Spracheingabe starten</button>
+    <br><br>
+    <p id="jarvisResponse"></p>
+
+    <script>
+      function callJarvis(speech) {
+        if (speech.includes("Wie geht es dir?")) {
+          return "Mir geht es gut, danke. Wie geht es dir?";
+        } else if (speech.includes("Wie ist das Wetter?")) {
+          return "Ich weiß nicht, wie das Wetter ist, ich bin ein Computerprogramm ohne Zugang zu Wetterinformationen.";
+        } else if (speech.includes("Erzähle mir einen Witz")) {
+          return "Warum war der Mathematikbuch traurig? Weil es zu viele Probleme hatte.";
+        } else {
+          return "Entschuldige, ich habe dich nicht verstanden. Kannst du das wiederholen?";
+        }
+      }
+
+      const startBtn = document.getElementById("startBtn");
+      const jarvisResponse = document.getElementById("jarvisResponse");
+
+      startBtn.addEventListener("click", function() {
+        startBtn.style.display = "none";
+
+        const recognition = new webkitSpeechRecognition();
+        recognition.continuous = true;
+        recognition.interimResults = true;
+
+        recognition.onresult = function(event) {
+          const speechInput = event.results[0][0].transcript;
+          jarvisResponse.innerText = callJarvis(speechInput);
+        };
+
+        recognition.start();
+      });
+    </script>
+  </body>
+</html>
